@@ -1,0 +1,35 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.expo/
+.expo-shared/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Expo
+.expo/
+.expo-shared/
+
+# Plan file (temporary)
+expo.plan.md
+
+**/venv/
+**/node_modules/
+**/__pycache__/
