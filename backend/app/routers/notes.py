@@ -32,7 +32,7 @@ async def get_nearby_notes(
         if note.get("audio_path"):
             audio_url = supabase.storage.from_("voice-notes").create_signed_url(
                 note["audio_path"], 3600
-            ).get("signedURL")
+            ).get("signed_url")
         
         notes.append(NoteResponse(
             id=note["id"],
@@ -63,7 +63,7 @@ async def get_my_notes(current_user: dict = Depends(get_current_user)):
         if note.get("audio_path"):
             audio_url = supabase.storage.from_("voice-notes").create_signed_url(
                 note["audio_path"], 3600
-            ).get("signedURL")
+            ).get("signed_url")
         
         notes.append(MyNoteResponse(
             id=note["id"],
@@ -140,7 +140,7 @@ async def create_note(
     if audio_path:
         audio_url = supabase.storage.from_("voice-notes").create_signed_url(
             audio_path, 3600
-        ).get("signedURL")
+        ).get("signed_url")
     
     return MyNoteResponse(
         id=note["id"],
@@ -169,7 +169,7 @@ async def get_note(note_id: str, current_user: dict = Depends(get_current_user))
     if note.get("audio_path"):
         audio_url = supabase.storage.from_("voice-notes").create_signed_url(
             note["audio_path"], 3600
-        ).get("signedURL")
+        ).get("signed_url")
     
     # Get replies
     replies_response = supabase.table("replies").select("*").eq(
@@ -182,7 +182,7 @@ async def get_note(note_id: str, current_user: dict = Depends(get_current_user))
         if reply.get("audio_path"):
             reply_audio_url = supabase.storage.from_("voice-notes").create_signed_url(
                 reply["audio_path"], 3600
-            ).get("signedURL")
+            ).get("signed_url")
         
         replies.append(ReplyResponse(
             id=reply["id"],
@@ -274,7 +274,7 @@ async def create_reply(
     if audio_path:
         audio_url = supabase.storage.from_("voice-notes").create_signed_url(
             audio_path, 3600
-        ).get("signedURL")
+        ).get("signed_url")
     
     return ReplyResponse(
         id=reply["id"],
