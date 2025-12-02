@@ -33,3 +33,6 @@ expo.plan.md
 **/venv/
 **/node_modules/
 **/__pycache__/
+
+.cursor/
+
