@@ -23,16 +23,7 @@ build/
 Thumbs.db
 *.log
 
-# Expo
-.expo/
-.expo-shared/
-
-# Plan file (temporary)
 expo.plan.md
-
 **/venv/
-**/node_modules/
 **/__pycache__/
-
 .cursor/
-

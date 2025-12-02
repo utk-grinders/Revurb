@@ -32,6 +32,3 @@ Press `a` for Android emulator or scan QR code with Expo Go.
 
 
 
-
-
-

@@ -12,23 +12,15 @@ def get_supabase_client() -> Client:
 @router.get("/me", response_model=UserProfile)
 async def get_my_profile(current_user: dict = Depends(get_current_user)):
     supabase = get_supabase_client()
+    response = supabase.table("profiles").select("*").eq("id", current_user["id"]).execute()
     
-    try:
-        response = supabase.table("profiles").select("*").eq("id", current_user["id"]).execute()
-        
-        if not response.data or len(response.data) == 0:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Profile not found"
-            )
-        
-        return response.data[0]
-    
-    except Exception as e:
+    if not response.data:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error fetching profile: {str(e)}"
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Profile not found"
         )
+    
+    return response.data[0]
 
 @router.put("/me", response_model=UserProfile)
 async def update_my_profile(
@@ -36,35 +28,20 @@ async def update_my_profile(
     current_user: dict = Depends(get_current_user)
 ):
     supabase = get_supabase_client()
+    update_data = profile_update.model_dump(exclude_unset=True)
     
-    try:
-        update_data = profile_update.model_dump(exclude_unset=True)
-        
-        if not update_data:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="No fields to update"
-            )
-        
-        response = supabase.table("profiles").update(update_data).eq("id", current_user["id"]).execute()
-        
-        if not response.data or len(response.data) == 0:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Profile not found"
-            )
-        
-        return response.data[0]
-    
-    except Exception as e:
+    if not update_data:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating profile: {str(e)}"
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No fields to update"
         )
-
-
-
-
-
-
-
+    
+    response = supabase.table("profiles").update(update_data).eq("id", current_user["id"]).execute()
+    
+    if not response.data:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Profile not found"
+        )
+    
+    return response.data[0]
