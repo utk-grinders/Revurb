@@ -132,9 +132,6 @@ async def create_note(
     if not response.data:
         raise HTTPException(status_code=500, detail="Failed to create note")
     
-    # Increment rate limit
-    supabase.rpc("increment_rate_limit", {"p_user_id": current_user["id"]}).execute()
-    
     note = response.data[0]
     audio_url = None
     if audio_path:
