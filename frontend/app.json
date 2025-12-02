@@ -6,30 +6,57 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0a0a0a"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.revurb.app"
+      "bundleIdentifier": "com.revurb.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Revurb needs your location to show nearby voice notes.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Enable background location to get notified when you're near voice notes.",
+        "NSMicrophoneUsageDescription": "Revurb needs microphone access to record voice notes.",
+        "UIBackgroundModes": ["location", "audio"]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0a0a0a"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.revurb.app"
+      "package": "com.revurb.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
+        "RECORD_AUDIO",
+        "FOREGROUND_SERVICE",
+        "FOREGROUND_SERVICE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow Revurb to use your location to show nearby notes and notify you when you're near one.",
+          "isAndroidBackgroundLocationEnabled": true
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow Revurb to access your microphone to record voice notes."
+        }
+      ]
     ]
   }
 }
